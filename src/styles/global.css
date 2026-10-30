@@ -1,22 +1,374 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-@import "nes.css/css/nes.min.css";
+
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
+@import "~nes.css/css/nes.min.css";
+
+/* -------------------------
+   COLOR PALETTE
+-------------------------- */
+
+:root {
+  --cream: #fff8e9;
+  --light-pink: #f6d9df;
+  --pink: #e9a9bb;
+  --purple: #6c527d;
+  --dark-purple: #443354;
+  --lavender: #c9b4dc;
+  --text: #443354;
+  --white: #ffffff;
+}
 
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  font-family: "Press Start 2P", cursive;
-  background-color: #212529;
-  color: #fff;
+  background-color: #e9ddeb;
+  background-image:
+    linear-gradient(45deg, #d9c9df 25%, transparent 25%),
+    linear-gradient(-45deg, #d9c9df 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #d9c9df 75%),
+    linear-gradient(-45deg, transparent 75%, #d9c9df 75%);
+  background-size: 24px 24px;
+  color: var(--text);
+  font-family: "VT323", monospace;
+  font-size: 22px;
 }
 
-button {
-  font-family: inherit;
+/* -------------------------
+   MAIN GAME CONTAINER
+-------------------------- */
+
+.game-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 16px;
+}
+
+.game-container {
+  width: 100%;
+  max-width: 1050px;
+  background: var(--cream);
+  border: 5px solid var(--dark-purple);
+  box-shadow: 10px 10px 0 rgba(68, 51, 84, 0.25);
+  padding: 24px;
+}
+
+/* -------------------------
+   HEADER
+-------------------------- */
+
+.game-header {
+  background: var(--dark-purple);
+  color: var(--cream);
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+  line-height: 1.8;
+  color: var(--pink);
+  margin: 0 0 12px;
+}
+
+.game-header h1 {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(13px, 2vw, 19px);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.level-badge {
+  background: var(--pink);
+  color: var(--dark-purple);
+  padding: 12px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* -------------------------
+   DASHBOARD
+-------------------------- */
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 0.9fr 1.5fr;
+  gap: 20px;
+}
+
+/* -------------------------
+   PROFILE PANEL
+-------------------------- */
+
+.profile-panel {
+  background: var(--light-pink);
+  border: 3px solid var(--dark-purple);
+  padding: 22px;
+  text-align: center;
+}
+
+.avatar-frame {
+  width: 155px;
+  height: 155px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid var(--dark-purple);
+  outline: 5px solid var(--pink);
+  background: var(--cream);
+  box-shadow: 0 5px 0 rgba(68, 51, 84, 0.2);
+}
+
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-panel h2 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 18px 0;
+}
+
+.character-class,
+.guild-name {
+  font-size: 20px;
+  margin: 8px 0;
+}
+
+.profile-panel hr {
+  border: 0;
+  border-top: 3px dashed var(--pink);
+  margin: 22px 0;
+}
+
+.profile-panel h3 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  margin-bottom: 15px;
+}
+
+.passive-skills {
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  line-height: 1.7;
+}
+
+/* -------------------------
+   STATUS PANEL
+-------------------------- */
+
+.stats-panel {
+  background: var(--white);
+  border: 3px solid var(--dark-purple);
+  padding: 24px;
+}
+
+.stats-panel h2 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0 0 28px;
+}
+
+.stat {
+  margin-bottom: 23px;
+}
+
+.stat-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  margin-bottom: 7px;
+}
+
+.stat-track {
+  width: 100%;
+  height: 17px;
+  background: #eee5ed;
+  border: 2px solid var(--dark-purple);
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+}
+
+.hp-fill {
+  width: 85%;
+  background: #e88caa;
+}
+
+.mp-fill {
+  width: 60%;
+  background: #8e9edb;
+}
+
+.exp-fill {
+  width: 35%;
+  background: #e8c46d;
+}
+
+/* -------------------------
+   QUEST CARD
+-------------------------- */
+
+.quest-card {
+  background: var(--cream);
+  border: 3px dashed var(--pink);
+  padding: 18px;
+  margin-top: 30px;
+}
+
+.quest-card h3 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.quest-card p {
+  line-height: 1.5;
+}
+
+.quest-status {
+  display: inline-block;
+  background: var(--lavender);
+  padding: 7px 12px;
+  font-size: 16px;
+}
+
+/* -------------------------
+   GAME MENU
+-------------------------- */
+
+.game-menu {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.menu-button {
+  border: 3px solid var(--dark-purple);
+  background: var(--light-pink);
+  color: var(--dark-purple);
+  padding: 15px 8px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  line-height: 1.8;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.menu-button span {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.menu-button:hover {
+  background: var(--pink);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 0 var(--dark-purple);
+}
+
+.menu-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* -------------------------
+   MINI WINDOWS
+-------------------------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(35, 25, 45, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.game-modal {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  background: var(--cream);
+  border: 5px solid var(--dark-purple);
+  padding: 35px;
+  box-shadow: 8px 8px 0 var(--pink);
+}
+
+.game-modal h2 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 20px 0;
+}
+
+.game-modal p {
+  line-height: 1.6;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--pink);
+  border: 2px solid var(--dark-purple);
+  color: var(--dark-purple);
+  padding: 7px 12px;
+  cursor: pointer;
+  font-family: "Press Start 2P", monospace;
+}
+
+/* -------------------------
+   RESPONSIVE DESIGN
+-------------------------- */
+
+@media (max-width: 750px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .game-menu {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .game-header {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  .game-container {
+    padding: 12px;
+  }
+
+  .game-header {
+    flex-direction: column;
+  }
+
+  .game-modal {
+    padding: 25px 18px;
+  }
 }
