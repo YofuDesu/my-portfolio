@@ -1,6 +1,6 @@
-
 import React, { useState } from "react"
 import profileImage from "../../images/profile.jpg"
+import projects from "../data/projects"
 
 const menuItems = [
   { id: "quests", label: "QUEST LOG", icon: "📜" },
@@ -41,10 +41,10 @@ export default function Home() {
       <section className="game-container">
         <header className="game-header">
           <div>
-            <p className="eyebrow">PLAYER PROFILE</p>
-            <h1>MY STATUS</h1>
+            <p className="eyebrow">PLAYER RANK</p>
+            <h1>ROOKIE ADVENTURER</h1>
           </div>
-          <span className="level-badge">LV. 25</span>
+          <span className="level-badge">LV. 26</span>
         </header>
 
         <div className="dashboard">
@@ -109,8 +109,8 @@ export default function Home() {
 
             <div className="quest-card">
               <p className="eyebrow">CURRENT QUEST</p>
-              <h3>Build My Developer Portfolio</h3>
-              <p>Mission: Looking for new opportunities to showcase my skills, where I can apply my knowledge and grow as a Full Stack Developer.</p>
+              <h3>Build My Personal Portfolio</h3>
+              <p>Mission: Enhance my skills as a developer and create a portfolio that showcases my work. </p>
               <span className="quest-status">IN PROGRESS</span>
             </div>
           </section>
@@ -129,13 +129,14 @@ export default function Home() {
           ))}
         </nav>
 
+        
         {activeWindow && (
           <div
             className="modal-backdrop"
             onClick={() => setActiveWindow(null)}
           >
             <section
-              className="game-modal"
+              className="game-modal quest-modal"
               onClick={(event) => event.stopPropagation()}
             >
               <button
@@ -146,11 +147,77 @@ export default function Home() {
               </button>
 
               <p className="eyebrow">ADVENTURER MENU</p>
-              <h2>{windowContent[activeWindow].title}</h2>
-              <p>{windowContent[activeWindow].text}</p>
+
+              {activeWindow === "quests" ? (
+                <>
+                  <h2>QUEST LOG</h2>
+                  <p className="quest-intro">
+                    These are my completed and ongoing adventures!
+                  </p>
+
+                  <div className="project-list">
+                    {projects.map((project) => {
+                      const isCompleted = project.status?.toLowerCase().includes("completed");
+
+                      return (
+                        <article
+                          className={`project-card ${isCompleted ? "completed-quest" : ""}`}
+                          key={project.id}
+                        >
+                          <div className="project-heading">
+                            <h3>{project.title}</h3>
+                            <span>{project.status}</span>
+                          </div>
+
+                          <p>{project.description}</p>
+
+                          <div className="technology-list">
+                            {project.technologies.map((tech) => (
+                              <span key={tech}>{tech}</span>
+                            ))}
+                          </div>
+
+                          <div className="project-footer">
+                            <div className="project-links">
+                              {project.github && (
+                                <a href={project.github} target="_blank" rel="noreferrer">
+                                  GITHUB ↗
+                                </a>
+                              )}
+
+                              {project.demo && (
+                                <a href={project.demo} target="_blank" rel="noreferrer">
+                                  {project.demo.includes("roblox.com") ? "PLAY GAME ↗" : "LIVE DEMO ↗"}
+                                </a>
+                              )}
+                            </div>
+
+                            <div className="quest-reward">
+                              <span className="exp-reward">+{project.exp} EXP</span>
+
+                              <span
+                                className={`quest-check ${isCompleted ? "is-completed" : ""}`}
+                                title={isCompleted ? "COMPLETED QUEST" : "ONGOING QUEST"}
+                              >
+                                {isCompleted ? "✓" : "□"}
+                              </span>
+                            </div>
+                          </div>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2>{windowContent[activeWindow].title}</h2>
+                  <p>{windowContent[activeWindow].text}</p>
+                </>
+              )}
             </section>
           </div>
         )}
+
       </section>
     </main>
   )

@@ -9,15 +9,25 @@
    COLOR PALETTE
 -------------------------- */
 
+
 :root {
-  --cream: #fff8e9;
-  --light-pink: #f6d9df;
-  --pink: #e9a9bb;
-  --purple: #6c527d;
-  --dark-purple: #443354;
-  --lavender: #c9b4dc;
-  --text: #443354;
-  --white: #ffffff;
+  /* Forest RPG palette */
+  --cream: #e8eddf;
+  --light-pink: #c5d5b5;
+  --pink: #91a982;
+  --purple: #526b4f;
+  --dark-purple: #243b2a;
+  --lavender: #a9bd91;
+  --text: #263b2c;
+  --white: #f5f7ef;
+
+  /* Additional forest colors */
+  --forest: #172d21;
+  --deep-green: #1e3a2a;
+  --moss: #617c4b;
+  --sage: #a8b99a;
+  --gold: #d5b66b;
+  --wood: #725b3e;
 }
 
 * {
@@ -26,12 +36,12 @@
 
 body {
   margin: 0;
-  background-color: #e9ddeb;
+  background-color: var(--forest);
   background-image:
-    linear-gradient(45deg, #d9c9df 25%, transparent 25%),
-    linear-gradient(-45deg, #d9c9df 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #d9c9df 75%),
-    linear-gradient(-45deg, transparent 75%, #d9c9df 75%);
+    linear-gradient(45deg, #203a2b 25%, transparent 25%),
+    linear-gradient(-45deg, #203a2b 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #203a2b 75%),
+    linear-gradient(-45deg, transparent 75%, #203a2b 75%);
   background-size: 24px 24px;
   color: var(--text);
   font-family: "VT323", monospace;
@@ -78,7 +88,7 @@ body {
   font-family: "Press Start 2P", monospace;
   font-size: 9px;
   line-height: 1.8;
-  color: var(--pink);
+  color: var(--gold);
   margin: 0 0 12px;
 }
 
@@ -90,8 +100,9 @@ body {
 }
 
 .level-badge {
-  background: var(--pink);
-  color: var(--dark-purple);
+  background: var(--moss);
+  color: var(--cream);
+  border: 2px solid var(--gold);
   padding: 12px;
   font-family: "Press Start 2P", monospace;
   font-size: 10px;
@@ -113,7 +124,7 @@ body {
 -------------------------- */
 
 .profile-panel {
-  background: var(--light-pink);
+  background: #dce7d2;
   border: 3px solid var(--dark-purple);
   padding: 22px;
   text-align: center;
@@ -222,7 +233,7 @@ body {
 
 .exp-fill {
   width: 35%;
-  background: #e8c46d;
+  background: var(--gold);
 }
 
 /* -------------------------
@@ -230,8 +241,8 @@ body {
 -------------------------- */
 
 .quest-card {
-  background: var(--cream);
-  border: 3px dashed var(--pink);
+  background: #e5ecd9;
+  border: 3px dashed var(--moss);
   padding: 18px;
   margin-top: 30px;
 }
@@ -248,7 +259,8 @@ body {
 
 .quest-status {
   display: inline-block;
-  background: var(--lavender);
+  background: var(--moss);
+  color: white;
   padding: 7px 12px;
   font-size: 16px;
 }
@@ -266,7 +278,7 @@ body {
 
 .menu-button {
   border: 3px solid var(--dark-purple);
-  background: var(--light-pink);
+  background: #c5d5b5;
   color: var(--dark-purple);
   padding: 15px 8px;
   font-family: "Press Start 2P", monospace;
@@ -283,9 +295,10 @@ body {
 }
 
 .menu-button:hover {
-  background: var(--pink);
+  background: #91a982;
+  color: #172d21;
   transform: translateY(-4px);
-  box-shadow: 0 4px 0 var(--dark-purple);
+  box-shadow: 0 4px 0 var(--gold);
 }
 
 .menu-button:active {
@@ -370,5 +383,152 @@ body {
 
   .game-modal {
     padding: 25px 18px;
+  }
+}
+
+/* QUEST LOG WINDOW */
+
+.quest-modal {
+  max-width: 750px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.quest-intro {
+  margin-bottom: 24px;
+}
+
+.project-list {
+  display: grid;
+  gap: 18px;
+}
+
+.project-card {
+  background: #f5f7ef;
+  border: 3px solid var(--dark-purple);
+  padding: 18px;
+  box-shadow: 4px 4px 0 #91a982;
+}
+
+.project-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.project-heading h3 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.project-heading span {
+  background: #dce7d2;
+  color: var(--dark-purple);
+  border: 1px solid var(--moss);
+  padding: 6px 9px;
+  font-size: 15px;
+}
+
+.project-card p {
+  line-height: 1.5;
+  margin: 16px 0;
+}
+
+.technology-list span {
+  background: #dce7d2;
+  border: 2px solid var(--moss);
+  color: var(--dark-purple);
+  padding: 5px 9px;
+  font-size: 16px;
+}
+
+
+.technology-list span {
+  background: var(--light-pink);
+  border: 2px solid var(--pink);
+  padding: 5px 9px;
+  font-size: 16px;
+}
+
+.project-links a {
+  color: #365c3c;
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+  line-height: 2;
+  text-decoration: none;
+}
+
+.project-links a {
+  color: var(--dark-purple);
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+  line-height: 2;
+  text-decoration: none;
+}
+
+.project-links a:hover {
+  color: #9b762e;
+  text-decoration: underline;
+}
+
+/* QUEST CARD FOOTER */
+
+.project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.quest-reward {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.exp-reward {
+  color: #76591e;
+  background: #f5e8bd;
+  border: 2px solid #c9a64e;
+  padding: 5px 8px;
+  font-size: 16px;
+}
+
+.quest-check {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--dark-purple);
+  background: #e8eddf;
+  color: var(--dark-purple);
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.quest-check.is-completed {
+  background: #b8d3a5;
+  color: #234b2b;
+  border-color: #426b3d;
+}
+
+.completed-quest {
+  border-color: #64865b;
+}
+
+@media (max-width: 480px) {
+  .project-footer {
+    flex-wrap: wrap;
+  }
+
+  .quest-reward {
+    margin-left: auto;
   }
 }
