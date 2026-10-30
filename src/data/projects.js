@@ -48,6 +48,18 @@ const projects = [
     demo: "https://www.roblox.com/share?code=3068983523fa274aa62e3577db4d336e&type=ExperienceDetails&stamp=1793359936429",
     exp: 40,
   },
+    {
+    id: 5,
+    title: "Looking for a Team",
+    status: "NOT YET UNLOCKED",
+    completed: false,
+    description:
+      "Looking for a team where I can contribute my skills and collaborate on exciting projects. Open to opportunities in web development, game development, and software engineering.",
+    technologies: ["Python", "JavaScript", "C++", "Java"],
+    github: "",
+    demo: "",
+    exp: 10,
+  },
 ]
 
 export default projects

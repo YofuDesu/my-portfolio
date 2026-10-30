@@ -1,13 +1,14 @@
 import React, { useState } from "react"
 import profileImage from "../../images/profile.jpg"
 import projects from "../data/projects"
+import skills from "../data/skills";
 
 const menuItems = [
-  { id: "quests", label: "QUEST LOG", icon: "📜" },
-  { id: "skills", label: "SKILL TREE", icon: "⚔️" },
-  { id: "inventory", label: "INVENTORY", icon: "🎒" },
-  { id: "achievements", label: "ACHIEVEMENTS", icon: "🏆" },
-  { id: "guild", label: "GUILD HALL", icon: "🏰" },
+  { id: "quests", label: "QUEST LOG", icon: " " },
+  { id: "skills", label: "SKILL TREE", icon: " " },
+  { id: "inventory", label: "INVENTORY", icon: " " },
+  { id: "achievements", label: "ACHIEVEMENTS", icon: " " },
+  { id: "guild", label: "GUILD HALL", icon: " " },
 ]
 
 const windowContent = {
@@ -44,7 +45,9 @@ export default function Home() {
             <p className="eyebrow">PLAYER RANK</p>
             <h1>ROOKIE ADVENTURER</h1>
           </div>
-          <span className="level-badge">LV. 26</span>
+          <div className="nes-badge level-badge">
+            <span className="is-warning">LV. 26</span>
+          </div>
         </header>
 
         <div className="dashboard">
@@ -83,7 +86,11 @@ export default function Home() {
                 <span>85 / 100</span>
               </div>
               <div className="stat-track">
-                <div className="stat-fill hp-fill" />
+                <progress
+                  className="nes-progress is-success"
+                  value="85"
+                  max="100"
+                />
               </div>
             </div>
 
@@ -93,7 +100,11 @@ export default function Home() {
                 <span>60 / 100</span>
               </div>
               <div className="stat-track">
-                <div className="stat-fill mp-fill" />
+                <progress
+                  className="nes-progress is-primary"
+                  value="60"
+                  max="100"
+                />
               </div>
             </div>
 
@@ -103,7 +114,11 @@ export default function Home() {
                 <span>35 / 100</span>
               </div>
               <div className="stat-track">
-                <div className="stat-fill exp-fill" />
+                <progress
+                  className="nes-progress is-warning"
+                  value="35"
+                  max="100"
+                />
               </div>
             </div>
 
@@ -120,7 +135,8 @@ export default function Home() {
           {menuItems.map((item) => (
             <button
               key={item.id}
-              className="menu-button"
+              type="button"
+              className="nes-btn menu-button"
               onClick={() => setActiveWindow(item.id)}
             >
               <span>{item.icon}</span>
@@ -193,19 +209,61 @@ export default function Home() {
                             </div>
 
                             <div className="quest-reward">
-                              <span className="exp-reward">+{project.exp} EXP</span>
+                              <span className="exp-reward">
+                                <i className="nes-icon coin is-small"></i>
+                                +{project.exp} EXP
+                              </span>
 
                               <span
-                                className={`quest-check ${isCompleted ? "is-completed" : ""}`}
+                                className={`quest-check ${isCompleted ? "is-completed" : "is-pending"}`}
                                 title={isCompleted ? "COMPLETED QUEST" : "ONGOING QUEST"}
                               >
-                                {isCompleted ? "✓" : "□"}
+                                {isCompleted ? "✔" : "□"}
                               </span>
                             </div>
                           </div>
                         </article>
                       );
                     })}
+                  </div>
+                </>
+              ) : activeWindow === "skills" ? (
+                <>
+                  <h2>SKILL TREE</h2>
+                  <p className="quest-intro">
+                    My abilities, knowledge, and learned skills!
+                  </p>
+
+                  <div className="skill-tree">
+                    {skills.map((group) => (
+                      <section
+                        className="skill-category"
+                        key={group.category}
+                      >
+                        <h3>
+                          {group.icon} {group.category}
+                        </h3>
+
+                        <div className="skill-list">
+                          {group.skills.map((skill) => (
+                            <div className="skill-item" key={skill.name}>
+                              <div className="skill-info">
+                                <strong>{skill.name}</strong>
+                                <span>{skill.level}</span>
+                              </div>
+
+                              <div className="skill-bar">
+                                <progress
+                                  className="nes-progress is-success"
+                                  value={skill.progress}
+                                  max="100"
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    ))}
                   </div>
                 </>
               ) : (

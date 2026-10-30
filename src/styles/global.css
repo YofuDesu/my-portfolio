@@ -99,14 +99,17 @@ body {
   margin: 0;
 }
 
-.level-badge {
-  background: var(--moss);
-  color: var(--cream);
-  border: 2px solid var(--gold);
-  padding: 12px;
+.level-badge.nes-badge {
+  position: relative;
   font-family: "Press Start 2P", monospace;
-  font-size: 10px;
+  font-size: 12px;
+  top: 15px;
   white-space: nowrap;
+}
+
+.level-badge.nes-badge span {
+  background-color: var(--gold);
+  color: var(--dark-purple);
 }
 
 /* -------------------------
@@ -209,26 +212,36 @@ body {
   margin-bottom: 7px;
 }
 
+/* -------------------------
+   CHARACTER STATUS - NES.CSS
+-------------------------- */
+
 .stat-track {
   width: 100%;
-  height: 17px;
-  background: #eee5ed;
-  border: 2px solid var(--dark-purple);
-  overflow: hidden;
+  height: 20px;
+  background: transparent;
+  border: none;
+  overflow: visible;
 }
 
-.stat-fill {
-  height: 100%;
+.stat-track .nes-progress {
+  display: block;
+  width: 100%;
+  height: 20px;
+  margin: 0;
+  border-radius: 0;
 }
 
-.hp-fill {
-  width: 85%;
-  background: #e88caa;
+.stat-track .nes-progress.is-success {
+  color: var(--moss);
 }
 
-.mp-fill {
-  width: 60%;
-  background: #8e9edb;
+.stat-track .nes-progress.is-primary {
+  color: #668c91;
+}
+
+.stat-track .nes-progress.is-warning {
+  color: var(--gold);
 }
 
 .exp-fill {
@@ -266,7 +279,7 @@ body {
 }
 
 /* -------------------------
-   GAME MENU
+   GAME MENU - NES.CSS
 -------------------------- */
 
 .game-menu {
@@ -276,34 +289,27 @@ body {
   margin-top: 24px;
 }
 
-.menu-button {
-  border: 3px solid var(--dark-purple);
-  background: #c5d5b5;
+.menu-button.nes-btn {
+  min-width: 0;
+  min-height: 75px;
+  padding: 10px 6px;
+  background-color: var(--sage);
   color: var(--dark-purple);
   padding: 15px 8px;
   font-family: "Press Start 2P", monospace;
   font-size: 8px;
   line-height: 1.8;
-  cursor: pointer;
-  transition: 0.15s ease;
 }
 
-.menu-button span {
+.menu-button.nes-btn:hover {
+  background-color: var(--moss);
+  color: var(--white);
+}
+
+.menu-button.nes-btn span {
   display: block;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.menu-button:hover {
-  background: #91a982;
-  color: #172d21;
-  transform: translateY(-4px);
-  box-shadow: 0 4px 0 var(--gold);
-}
-
-.menu-button:active {
-  transform: translateY(0);
-  box-shadow: none;
+  font-size: 21px;
+  margin-bottom: 5px;
 }
 
 /* -------------------------
@@ -438,6 +444,12 @@ body {
   margin: 16px 0;
 }
 
+.technology-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .technology-list span {
   background: #dce7d2;
   border: 2px solid var(--moss);
@@ -447,23 +459,8 @@ body {
 }
 
 
-.technology-list span {
-  background: var(--light-pink);
-  border: 2px solid var(--pink);
-  padding: 5px 9px;
-  font-size: 16px;
-}
-
 .project-links a {
   color: #365c3c;
-  font-family: "Press Start 2P", monospace;
-  font-size: 9px;
-  line-height: 2;
-  text-decoration: none;
-}
-
-.project-links a {
-  color: var(--dark-purple);
   font-family: "Press Start 2P", monospace;
   font-size: 9px;
   line-height: 2;
@@ -494,11 +491,15 @@ body {
 }
 
 .exp-reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: #76591e;
   background: #f5e8bd;
   border: 2px solid #c9a64e;
   padding: 5px 8px;
   font-size: 16px;
+  white-space: nowrap;
 }
 
 .quest-check {
@@ -509,14 +510,20 @@ body {
   border: 2px solid var(--dark-purple);
   background: #e8eddf;
   color: var(--dark-purple);
-  font-size: 21px;
-  font-weight: bold;
+  font-family: "Press Start 2P", monospace;
+  font-size: 15px;
+  line-height: 1;
 }
 
 .quest-check.is-completed {
-  background: #b8d3a5;
-  color: #234b2b;
-  border-color: #426b3d;
+  background: var(--sage);
+  color: var(--dark-purple);
+  border-color: var(--moss);
+}
+
+.quest-check.is-pending {
+  background: #e8eddf;
+  color: var(--wood);
 }
 
 .completed-quest {
@@ -531,4 +538,25 @@ body {
   .quest-reward {
     margin-left: auto;
   }
+}
+
+/* -------------------------
+   SKILL TREE - NES.CSS
+-------------------------- */
+
+.skill-bar {
+  width: 100%;
+  height: 16px;
+  overflow: visible;
+}
+
+.skill-bar .nes-progress {
+  display: block;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+}
+
+.skill-bar .nes-progress.is-success {
+  color: var(--moss);
 }
