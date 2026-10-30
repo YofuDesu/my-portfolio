@@ -1,4 +1,30 @@
-import * as React from "react"
+import React from "react";
+
+export default function Home() {
+  return (
+     <main className="container" style={{ padding: "50px 20px" }}>
+      <section className="nes-container is-dark with-title">
+        <p className="title">PLAYER PROFILE</p>
+
+        <div style={{ textAlign: "center" }}>
+          <i className="nes-mario"></i>
+
+          <h1 style={{ fontSize: "18px", marginTop: "30px" }}>
+            WELCOME, ADVENTURER!
+          </h1>
+
+          <p style={{ fontSize: "10px", lineHeight: "2" }}>
+            I'm a developer building digital adventures.
+          </p>
+
+          <button className="nes-btn is-primary">
+            START GAME
+          </button>
+        </div>
+      </section>
+    </main>
+  );
+}
 
 const pageStyles = {
   color: "#232129",
@@ -173,6 +199,6 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+
 
 export const Head = () => <title>Home Page</title>
