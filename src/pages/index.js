@@ -401,7 +401,10 @@ export default function Home() {
                               {item && (
                                 <>
                                   <span className="inventory-icon">
-                                    <img src={item.icon} alt={`${item.name} icon`} />
+                                  <img
+                                    src={`${__PATH_PREFIX__}${item.icon}`}
+                                    alt={`${item.name} icon`}
+                                  />
                                   </span>
 
                                   <span className="inventory-item-name">
@@ -572,7 +575,7 @@ export default function Home() {
                     <div className="guild-footer">
                       <p>READY TO START A NEW ADVENTURE?</p>
                         <a
-                          href="https://mail.google.com/mail/?view=cm&fs=1&to=gocotanobrigetjohn@gmail.com&su=Let's%20Work%20Together"
+                          href={guildInfo.contacts[0].url}
                           className="nes-btn is-success"
                           target="_blank"
                           rel="noopener noreferrer"
