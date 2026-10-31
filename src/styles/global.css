@@ -555,22 +555,814 @@ body {
 }
 
 /* -------------------------
-   SKILL TREE - NES.CSS
+   SKILL TREE - RPG NODE SYSTEM
 -------------------------- */
 
-.skill-bar {
+.skill-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  height: 16px;
-  overflow: visible;
+  padding: 20px 5px;
 }
 
-.skill-bar .nes-progress {
+.skill-root {
+  display: flex;
+  justify-content: center;
+}
+
+.skill-node {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  line-height: 1.8;
+  padding: 12px 10px;
+  color: var(--white);
+  background: var(--deep-green);
+  border: 3px solid var(--gold);
+  box-shadow: 3px 3px 0 var(--forest);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.skill-node:hover {
+  background: var(--moss);
+  transform: translateY(-2px);
+}
+
+.skill-node.selected {
+  background: var(--gold);
+  color: var(--forest);
+  border-color: var(--white);
+}
+
+.skill-node small {
+  display: block;
+  margin-top: 8px;
+  font-size: 7px;
+}
+
+.main-node {
+  min-width: 190px;
+  padding: 15px;
+  font-size: 10px;
+}
+
+.branch-node {
+  min-width: 150px;
+}
+
+.leaf-node {
+  border-color: var(--sage);
+  font-size: 7px;
+}
+
+.bridge-node {
+  border-color: var(--gold);
+  background: var(--wood);
+}
+
+/* Parent-to-child connection lines */
+/* -------------------------
+   SKILL TREE CONNECTORS
+-------------------------- */
+
+/* Main PROGRAMMING node connector */
+.tree-connector {
+  width: 2px;
+  height: 22px;
+  background: var(--gold);
+  margin: 0 auto;
+}
+
+/* Main three branches */
+.skill-branches {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+  padding-top: 22px;
+  align-items: start;
+}
+
+/* Horizontal line connecting the three main branches */
+.skill-branches::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 16.666%;
+  right: 16.666%;
+  border-top: 2px solid var(--gold);
+}
+
+/* Individual vertical lines to the main branches */
+.skill-branch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.skill-branch::before {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  height: 22px;
+  border-left: 2px solid var(--gold);
+}
+
+/* Recursive parent-child connections */
+.skill-node-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Children container */
+.skill-node-children {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  width: max-content;
+  max-width: 100%;
+  padding-top: 30px;
+}
+
+/* Vertical line from parent to horizontal branch */
+.skill-node-children::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 15px;
+  border-left: 2px solid var(--gold);
+}
+
+/* Horizontal line connecting child nodes */
+.skill-node-children:has(> .skill-node-wrapper:nth-child(2))::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  border-top: 2px solid var(--gold);
+}
+
+/* Single-child parents get a direct vertical connection */
+.skill-node-children:not(:has(> .skill-node-wrapper:nth-child(2)))::before {
+  height: 30px;
+}
+
+/* Vertical line down to each child */
+.skill-node-children > .skill-node-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  height: 15px;
+  border-left: 2px solid var(--gold);
+}
+
+.nested-skill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.web-branches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.skill-subbranch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+}
+
+.skill-subbranch .skill-node {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.web-connection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 18px;
+}
+
+.connection-line {
+  height: 2px;
+  flex: 1;
+  background: var(--gold);
+}
+
+.bridge-node {
+  max-width: 100%;
+  font-size: 7px;
+  padding: 9px 6px;
+}
+
+.skill-details {
+  width: 100%;
+  margin-top: 28px;
+  padding: 20px;
+  text-align: left;
+  background: var(--cream);
+  color: var(--text);
+  border-color: var(--wood);
+}
+
+.skill-details h3 {
+  font-size: 12px;
+  margin: 12px 0;
+}
+
+.skill-level {
+  font-size: 9px;
+  color: var(--moss);
+}
+
+.skill-stat {
+  margin: 18px 0;
+}
+
+.skill-stat .nes-progress {
   display: block;
   width: 100%;
   height: 16px;
-  margin: 0;
+  margin: 8px 0;
 }
 
-.skill-bar .nes-progress.is-success {
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+}
+
+.skill-description {
+  margin-top: 24px;
+  border-top: 2px dashed var(--sage);
+  padding-top: 15px;
+}
+
+.skill-description h4 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  margin: 18px 0 8px;
+}
+
+.skill-description p {
+  min-height: 20px;
+  font-family: "VT323", monospace;
+  font-size: 18px;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+  .skill-branches {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .skill-node-children {
+    flex-wrap: nowrap;
+    min-width: 100%;
+    width: max-content;
+  }
+
+  .skill-node-wrapper {
+  flex-shrink: 0;
+  }
+
+  .focused-skill-root {
+    justify-content: flex-start;
+    overflow-x: auto;
+}
+
+  .skill-branch {
+    width: 100%;
+  }
+
+  .skill-node {
+    font-size: 7px;
+  }
+
+  .web-branches {
+    max-width: 400px;
+  }
+
+  .skill-details {
+    padding: 14px;
+  }
+}
+
+/* -------------------------
+   SKILL TREE ZOOM SYSTEM
+-------------------------- */
+
+.skill-overview {
+  width: 100%;
+  animation: zoomOutView 0.3s ease;
+}
+
+.skill-focus-view {
+  width: 100%;
+  transform-origin: top center;
+  animation: zoomInView 0.35s ease;
+}
+
+@keyframes zoomInView {
+  from {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOutView {
+  from {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.skill-branches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.skill-branch {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.branch-node {
+  width: 100%;
+  min-height: 90px;
+}
+
+.zoom-hint {
+  display: block;
+  margin-top: 10px;
+  font-size: 6px;
+  opacity: 0.75;
+}
+
+.back-skill-button {
+  display: block;
+  margin: 0 auto 28px;
+  font-size: 8px;
+}
+
+.focused-skill-root {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px 15px 30px;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+.focused-skill-root > .skill-node-wrapper {
+  width: max-content;
+  min-width: max-content;
+  margin: 0 auto;
+}
+
+.focus-hint {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 8px;
+  opacity: 0.7;
+}
+
+.skill-tree.zoomed-in {
+  animation: zoomInView 0.3s ease;
+}
+
+@media (max-width: 650px) {
+  .skill-branches {
+    grid-template-columns: 1fr;
+  }
+
+  .branch-node {
+    min-height: 65px;
+  }
+
+  .focused-skill-root {
+    justify-content: flex-start;
+  }
+}
+
+/* -------------------------
+   RPG INVENTORY SYSTEM
+-------------------------- */
+
+.inventory-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+  align-items: start;
+  margin-top: 25px;
+}
+
+/* Inventory slot grid */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 12px;
+  background: var(--deep-green);
+  border: 4px solid var(--wood);
+}
+
+/* Individual slots */
+.inventory-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  min-height: 100px;
+  padding: 8px 4px;
+  background: var(--cream);
+  border: 3px solid var(--sage);
+  box-shadow: 3px 3px 0 var(--forest);
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.inventory-slot:hover:not(:disabled) {
+  background: var(--light-pink);
+  transform: translateY(-3px);
+}
+
+.inventory-slot.selected {
+  background: var(--gold);
+  border-color: var(--white);
+}
+
+.inventory-slot:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+/* Icon area */
+.inventory-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 28px;
+  margin-bottom: 8px;
+}
+
+/* Item names */
+.inventory-item-name {
+  font-family: "Press Start 2P", monospace;
+  font-size: 6px;
+  line-height: 1.8;
+  color: var(--forest);
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+/* Slot numbering */
+.slot-number {
+  position: absolute;
+  bottom: 3px;
+  right: 4px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 6px;
+  color: var(--wood);
+}
+
+/* Empty slots */
+.inventory-slot.empty-slot {
+  background: rgba(0, 0, 0, 0.12);
+  border-style: dashed;
+  box-shadow: none;
+}
+
+/* Selected item information */
+.inventory-details {
+  min-width: 0;
+  padding: 16px;
+  background: var(--cream);
+  color: var(--text);
+  border-color: var(--wood);
+  text-align: left;
+}
+
+.inventory-details h3 {
+  font-size: 11px;
+  margin: 18px 0;
+  overflow-wrap: anywhere;
+}
+
+.inventory-type {
+  display: inline-block;
+  padding: 7px;
+  background: var(--sage);
+  color: var(--forest);
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  line-height: 1.8;
+}
+
+.inventory-description {
+  margin-top: 25px;
+  border-top: 2px dashed var(--sage);
+  padding-top: 15px;
+}
+
+.inventory-description h4 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+}
+
+.inventory-description p {
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+/* Mobile inventory */
+@media (max-width: 650px) {
+  .inventory-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .inventory-slot {
+    min-height: 85px;
+  }
+}
+
+.inventory-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  margin-bottom: 8px;
+}
+
+.inventory-icon img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* ==========================
+   GUILD HALL
+========================== */
+
+.guild-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin: 25px 0;
+  padding: 20px;
+  background: var(--deep-green);
+  color: var(--white);
+  border-color: var(--gold);
+  box-shadow: 4px 4px 0 var(--forest);
+}
+
+.guild-status .eyebrow {
+  color: var(--sage);
+}
+
+.guild-status h3 {
+  color: #b5e48c;
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  line-height: 1.8;
+  margin: 10px 0 0;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  background: #8fdb75;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #8fdb75;
+}
+
+.guild-section {
+  margin-top: 28px;
+  text-align: left;
+}
+
+.guild-section-title {
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  line-height: 1.8;
+  margin-bottom: 15px;
+  color: var(--dark-purple);
+}
+
+.guild-quest-content {
+  padding: 20px;
+  background: var(--cream);
+  border: 3px dashed var(--wood);
+  box-shadow: 4px 4px 0 var(--sage);
+}
+
+.guild-quest-content p {
+  font-family: "VT323", monospace;
+  font-size: 21px;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.quest-rank {
+  display: inline-block;
+  padding: 7px 10px;
+  background: var(--dark-purple);
+  color: var(--white);
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+}
+
+.guild-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.guild-tags .nes-badge {
+  position: relative;
+  margin: 0 5px 8px 0;
+}
+
+.work-tag {
+  padding: 10px 14px;
+  background: var(--sage);
+  border: 2px solid var(--forest);
+  box-shadow: 3px 3px 0 var(--forest);
+  font-family: "VT323", monospace;
+  font-size: 20px;
+}
+
+.guild-services {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guild-service {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: var(--cream);
+  border: 2px solid var(--sage);
+  font-family: "VT323", monospace;
+  font-size: 21px;
+}
+
+.service-number {
   color: var(--moss);
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+}
+
+.contact-board {
+  padding: 20px;
+  background: var(--sage);
+  border: 3px solid var(--wood);
+  box-shadow: 4px 4px 0 var(--forest);
+}
+
+.contact-intro {
+  font-family: "VT323", monospace;
+  font-size: 21px;
+}
+
+.guild-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.guild-contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px;
+  background: var(--cream);
+  border: 2px solid var(--forest);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guild-contact:hover {
+  color: var(--dark-purple);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--forest);
+}
+
+.contact-name {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  min-width: 75px;
+}
+
+.contact-value {
+  font-family: "VT323", monospace;
+  font-size: 19px;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.contact-arrow {
+  font-size: 18px;
+}
+
+.guild-footer {
+  margin-top: 30px;
+  padding: 20px 10px;
+  text-align: center;
+  background: var(--deep-green);
+  color: var(--white);
+}
+
+.guild-footer p {
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.guild-footer .nes-btn {
+  font-size: 9px;
+}
+
+@media (max-width: 600px) {
+  .guild-status h3 {
+    font-size: 9px;
+  }
+
+  .guild-section-title {
+    font-size: 8px;
+  }
+
+  .contact-board {
+    padding: 12px;
+  }
+
+  .guild-contact {
+    flex-wrap: wrap;
+  }
+
+  .contact-name {
+    min-width: 65px;
+  }
+
+  .contact-value {
+    font-size: 17px;
+  }
 }

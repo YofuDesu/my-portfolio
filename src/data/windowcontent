@@ -1,0 +1,24 @@
+const windowContent = {
+  quests: {
+    title: "QUEST LOG",
+    text: "A collection of projects and challenges I'm working on.",
+  },
+  skills: {
+    title: "SKILL TREE",
+    text: "My programming languages, frameworks, and technical skills.",
+  },
+  inventory: {
+    title: "INVENTORY",
+    text: "The tools and technologies I use to build things.",
+  },
+  achievements: {
+    title: "ACHIEVEMENTS",
+    text: "Certificates, milestones, and accomplishments.",
+  },
+  guild: {
+    title: "GUILD HALL",
+    text: "A little more about me, plus ways to get in touch.",
+  },
+}
+
+export default windowContent

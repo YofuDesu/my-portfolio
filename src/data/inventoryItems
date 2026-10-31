@@ -1,0 +1,70 @@
+import reactIcon from "../../public/inventory/react.png"
+import gitIcon from "../../public/inventory/git.png"
+import githubIcon from "../../public/inventory/github.png"
+import vsCodeIcon from "../../public/inventory/vscode.png"
+import vsIcon from "../../public/inventory/vs.png"
+import asepriteIcon from "../../public/inventory/aseprite.png"
+import godotIcon from "../../public/inventory/godot.png"
+import robloxIcon from "../../public/inventory/studio.png"
+
+
+const inventoryItems = [
+  {
+    id: 1,
+    name: "VS CODE",
+    type: "CODE EDITOR",
+    icon: vsCodeIcon,
+    description: "My primary code editor for web development.",
+  },
+  {
+    id: 2,
+    name: "VISUAL STUDIO",
+    type: "IDE",
+    icon: vsIcon,
+    description: "An integrated development environment for programming.",
+  },
+  {
+    id: 3,
+    name: "GODOT",
+    type: "GAME ENGINE",
+    icon: godotIcon,
+    description: "Used for developing games with Godot.",
+  },
+  {
+    id: 4,
+    name: "ROBLOX STUDIO",
+    type: "GAME DEVELOPMENT",
+    icon: robloxIcon,
+    description: "Used to create and develop Roblox experiences.",
+  },
+  {
+    id: 5,
+    name: "GITHUB",
+    type: "VERSION CONTROL PLATFORM",
+    icon: githubIcon,
+    description: "Used to host repositories and manage projects.",
+  },
+  {
+    id: 6,
+    name: "GIT",
+    type: "VERSION CONTROL",
+    icon: gitIcon,
+    description: "Used to track changes and manage source code.",
+  },
+  {
+    id: 7,
+    name: "REACT",
+    type: "JAVASCRIPT LIBRARY",
+    icon: reactIcon,
+    description: "Used to build interactive user interfaces.",
+  },
+  {
+    id: 8,
+    name: "ASEPRITE",
+    type: "PIXEL ART EDITOR",
+    icon: asepriteIcon,
+    description: "Used to create pixel art and game assets.",
+  },
+]
+
+export default inventoryItems

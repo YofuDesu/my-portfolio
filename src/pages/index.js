@@ -1,46 +1,47 @@
 import React, { useState } from "react"
 import profileImage from "../../images/profile.jpg"
-import questIcon from "../../images/quest.png"
-import skillIcon from "../../images/skill.png"
-import inventoryIcon from "../../images/inventory.png"
-import achievementIcon from "../../images/achievement.png"
-import guildIcon from "../../images/guild.png"
 import projects from "../data/projects"
 import skills from "../data/skills";
+import achievements from "../data/achievement"
+import menuItems from "../data/menu"
+import inventoryItems from "../data/inventoryItems"
+import windowContent from "../data/windowcontent"
+import guildInfo from "../data/guild"
 
-const menuItems = [
-  { id: "quests", label: "QUEST LOG", icon: questIcon },
-  { id: "skills", label: "SKILL TREE", icon: skillIcon },
-  { id: "inventory", label: "INVENTORY", icon: inventoryIcon },
-  { id: "achievements", label: "ACHIEVEMENTS", icon: achievementIcon },
-  { id: "guild", label: "GUILD HALL", icon: guildIcon },
-]
-
-const windowContent = {
-  quests: {
-    title: "QUEST LOG",
-    text: "A collection of projects and challenges I'm working on.",
-  },
-  skills: {
-    title: "SKILL TREE",
-    text: "My programming languages, frameworks, and technical skills.",
-  },
-  inventory: {
-    title: "INVENTORY",
-    text: "The tools and technologies I use to build things.",
-  },
-  achievements: {
-    title: "ACHIEVEMENTS",
-    text: "Certificates, milestones, and accomplishments.",
-  },
-  guild: {
-    title: "GUILD HALL",
-    text: "A little more about me, plus ways to get in touch.",
-  },
-}
 
 export default function Home() {
   const [activeWindow, setActiveWindow] = useState(null)
+  const [selectedSkill, setSelectedSkill] = useState(skills)
+  const [focusedNode, setFocusedNode] = useState(null)
+  const [selectedInventoryItem, setSelectedInventoryItem] =
+  useState(inventoryItems[0])
+
+  const renderSkillNode = (node) => (
+  <div className="skill-node-wrapper" key={node.id}>
+    <button
+      type="button"
+      className={`skill-node ${
+        selectedSkill.id === node.id ? "selected" : ""
+      }`}
+      onClick={() => {
+        setSelectedSkill(node)
+
+        if (node.children?.length > 0) {
+          setFocusedNode(node)
+        }
+      }}
+    >
+      {node.name}
+      <small>LV. {node.level}/10</small>
+    </button>
+
+    {node.children?.length > 0 && (
+      <div className="skill-node-children">
+        {node.children.map((child) => renderSkillNode(child))}
+      </div>
+    )}
+  </div>
+)
 
   return (
     <main className="game-page">
@@ -144,11 +145,11 @@ export default function Home() {
               className="nes-btn menu-button"
               onClick={() => setActiveWindow(item.id)}
             >
-<span className="menu-icon">
-  <img src={item.icon} alt="" />
-</span>
-{item.label}
-            </button>
+            <span className="menu-icon">
+              <img src={item.icon} alt="" />
+            </span>
+            {item.label}
+                        </button>
           ))}
         </nav>
 
@@ -247,47 +248,345 @@ export default function Home() {
                 <>
                   <h2 id="modal-title">SKILL TREE</h2>
                   <p className="quest-intro">
-                    My abilities, knowledge, and learned skills!
+                    Explore my programming abilities and unlocked skills!
                   </p>
 
-                  <div className="skill-tree">
-                    {skills.map((group) => (
-                      <section
-                        className="skill-category"
-                        key={group.category}
-                      >
-                        <h3>
-                          {group.icon} {group.category}
-                        </h3>
+                  <div className={`skill-tree ${focusedNode ? "zoomed-in" : ""}`}>
 
-                        <div className="skill-list">
-                          {group.skills.map((skill) => (
-                            <div className="skill-item" key={skill.name}>
-                              <div className="skill-info">
-                                <strong>{skill.name}</strong>
-                                <span>{skill.level}</span>
-                              </div>
+                    {!focusedNode ? (
+                      /* MAIN TREE VIEW */
+                      <div className="skill-overview">
+                        <div className="skill-root">
+                          <button
+                            type="button"
+                            className="skill-node main-node"
+                            onClick={() => {
+                              setSelectedSkill(skills)
+                              setFocusedNode(skills)
+                            }}
+                          >
+                            ✦ {skills.name}
+                            <small>LV. {skills.level}/10</small>
+                          </button>
+                        </div>
 
-                              <div className="skill-bar">
-                                <progress
-                                  className="nes-progress is-success"
-                                  value={skill.progress}
-                                  max="100"
-                                />
-                              </div>
+                        <div className="tree-connector" />
+
+                        <div className="skill-branches">
+                          {skills.children.map((branch) => (
+                            <div className="skill-branch" key={branch.id}>
+                              <button
+                                type="button"
+                                className={`skill-node branch-node ${
+                                  selectedSkill.id === branch.id ? "selected" : ""
+                                }`}
+                                onClick={() => {
+                                  setSelectedSkill(branch)
+                                  setFocusedNode(branch)
+                                }}
+                              >
+                                {branch.name}
+                                <small>LV. {branch.level}/10</small>
+                                <span className="zoom-hint">CLICK TO EXPLORE ↗</span>
+                              </button>
                             </div>
                           ))}
                         </div>
-                      </section>
-                    ))}
+                      </div>
+                    ) : (
+                      /* ZOOMED TREE VIEW */
+                      <div className="skill-focus-view" key={focusedNode.id}>
+                        <button
+                          type="button"
+                          className="nes-btn back-skill-button"
+                          onClick={() => {
+                            setFocusedNode(null)
+                            setSelectedSkill(skills)
+                          }}
+                        >
+                          ← BACK TO SKILL TREE
+                        </button>
+
+                        <div className="focused-skill-root">
+                          {renderSkillNode(focusedNode)}
+                        </div>
+
+                        <p className="focus-hint">
+                          SELECT A NODE TO VIEW ITS INFORMATION
+                        </p>
+                      </div>
+                    )}
+
+                    {/* SKILL DETAILS */}
+                    <div className="skill-details nes-container is-rounded">
+                      <p className="eyebrow">SKILL INFORMATION</p>
+
+                      <h3>{selectedSkill.name}</h3>
+
+                      <p className="skill-level">
+                        LEVEL: {selectedSkill.level}/10
+                      </p>
+
+                      <div className="skill-stat">
+                        <div className="skill-info">
+                          <strong>KNOWLEDGE</strong>
+                          <span>{selectedSkill.knowledge}/10</span>
+                        </div>
+
+                        <progress
+                          className="nes-progress is-success"
+                          value={selectedSkill.knowledge}
+                          max="10"
+                        />
+                      </div>
+
+                      <div className="skill-stat">
+                        <div className="skill-info">
+                          <strong>EXPERIENCE</strong>
+                          <span>{selectedSkill.experience}/10</span>
+                        </div>
+
+                        <progress
+                          className="nes-progress is-warning"
+                          value={selectedSkill.experience}
+                          max="10"
+                        />
+                      </div>
+
+                      <div className="skill-description">
+                        <h4>DESCRIPTION</h4>
+                        <p>{selectedSkill.description || " "}</p>
+
+                        <h4>EFFECT</h4>
+                        <p>{selectedSkill.effect || " "}</p>
+
+                        <h4>UTILIZED IN</h4>
+                        <p>{selectedSkill.utilizedIn || " "}</p>
+                      </div>
+                    </div>
+
                   </div>
                 </>
-              ) : (
-                <>
-                  <h2>{windowContent[activeWindow].title}</h2>
-                  <p>{windowContent[activeWindow].text}</p>
-                </>
-              )}
+                ) : activeWindow === "inventory" ? (
+                  <>
+                    <h2 id="modal-title">INVENTORY</h2>
+
+                    <p className="quest-intro">
+                      Tools and equipment collected throughout my development journey.
+                    </p>
+
+                    <div className="inventory-layout">
+
+                      {/* INVENTORY SLOTS */}
+                      <div className="inventory-grid">
+
+                        {Array.from({ length: 12 }, (_, index) => {
+                          const item = inventoryItems[index]
+
+                          return (
+                            <button
+                              key={index}
+                              type="button"
+                              disabled={!item}
+                              className={`inventory-slot ${
+                                selectedInventoryItem?.id === item?.id
+                                  ? "selected"
+                                  : ""
+                              } ${!item ? "empty-slot" : ""}`}
+                              onClick={() => {
+                                if (item) setSelectedInventoryItem(item)
+                              }}
+                              aria-label={item ? item.name : "Empty inventory slot"}
+                            >
+                              {item && (
+                                <>
+                                  <span className="inventory-icon">
+                                    <img src={item.icon} alt={`${item.name} icon`} />
+                                  </span>
+
+                                  <span className="inventory-item-name">
+                                    {item.name}
+                                  </span>
+                                </>
+                              )}
+
+                              <span className="slot-number">
+                                {String(index + 1).padStart(2, "0")}
+                              </span>
+                            </button>
+                          )
+                        })}
+
+                      </div>
+
+                      {/* SELECTED ITEM INFORMATION */}
+                      <div className="inventory-details nes-container is-rounded">
+
+                        <p className="eyebrow">ITEM INFORMATION</p>
+
+                        {selectedInventoryItem ? (
+                          <>
+                            <h3>{selectedInventoryItem.name}</h3>
+
+                            <span className="inventory-type">
+                              {selectedInventoryItem.type}
+                            </span>
+
+                            <div className="inventory-description">
+                              <h4>DESCRIPTION</h4>
+                              <p>{selectedInventoryItem.description}</p>
+                            </div>
+                          </>
+                        ) : (
+                          <p>Select an item from your inventory.</p>
+                        )}
+
+                      </div>
+
+                    </div>
+                  </>
+                ) : activeWindow === "achievements" ? (
+                  <>
+                    <h2 id="modal-title">ACHIEVEMENTS</h2>
+
+                    <p className="quest-intro">
+                      Milestones and experience earned throughout my journey.
+                    </p>
+
+                    <div className="achievement-list">
+                      {achievements.map((achievement) => (
+                        <article
+                          className="achievement-card"
+                          key={achievement.id}
+                        >
+                          <div className="achievement-heading">
+                            <i className="nes-icon trophy is-small"></i>
+                            <h3>{achievement.title}</h3>
+                          </div>
+
+                          <h4>{achievement.subtitle}</h4>
+
+                          <p className="achievement-organization">
+                            {achievement.organization} · {achievement.date}
+                          </p>
+
+                          {Array.isArray(achievement.description) ? (
+                            <ul>
+                              {achievement.description.map((item, index) => (
+                                <li key={index}>{item}</li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p>{achievement.description}</p>
+                          )}
+                        </article>
+                      ))}
+                    </div>
+                  </>
+                ) : activeWindow === "guild" ? (
+                  <>
+                    <h2 id="modal-title">GUILD HALL</h2>
+
+                    <p className="quest-intro">
+                      A recruitment notice from an adventurer seeking a new party.
+                    </p>
+                    <div className="guild-status nes-container is-rounded">
+                      <div>
+                        <p className="eyebrow">PLAYER STATUS</p>
+                        <h3>
+                          <span className="status-indicator"></span>
+                          {guildInfo.status}
+                        </h3>
+                      </div>
+                      <i className="nes-icon star is-medium"></i>
+                    </div>
+                    <div className="guild-section quest-board">
+                      <h3 className="guild-section-title">
+                        <i className="nes-icon trophy is-small"></i>
+                        CURRENT QUEST
+                      </h3>
+
+                      <div className="guild-quest-content">
+                        <p>{guildInfo.currentQuest}</p>
+                        <span className="quest-rank">QUEST RANK: OPEN</span>
+                      </div>
+                    </div>
+                      <div className="guild-section">
+                        <h3 className="guild-section-title">PREFERRED ROLES</h3>
+
+                        <div className="technology-list">
+                          {guildInfo.preferredRoles.map((role) => (
+                            <span key={role}>{role}</span>
+                          ))}
+                        </div>
+                      </div>
+                    <div className="guild-section">
+                      <h3 className="guild-section-title">PREFERRED WORK SETUP</h3>
+
+                      <div className="guild-tags">
+                        {guildInfo.workSetup.map((setup) => (
+                          <span className="work-tag" key={setup}>
+                            {setup}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="guild-section">
+                      <h3 className="guild-section-title">SERVICES FOR HIRE</h3>
+
+                      <div className="guild-services">
+                        {guildInfo.services.map((service, index) => (
+                          <div className="guild-service" key={service}>
+                            <span className="service-number">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <span>{service}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="guild-section contact-board">
+                      <h3 className="guild-section-title">ESTABLISH CONTACT</h3>
+
+                      <p className="contact-intro">
+                        Interested in forming a party? Send me a message!
+                      </p>
+
+                      <div className="guild-contacts">
+                        {guildInfo.contacts.map((contact) => (
+                          <a
+                            key={contact.name}
+                            href={contact.url}
+                            className="guild-contact"
+                            target={contact.name === "EMAIL" ? undefined : "_blank"}
+                            rel={contact.name === "EMAIL" ? undefined : "noopener noreferrer"}
+                          >
+                            <span className="contact-name">{contact.name}</span>
+                            <span className="contact-value">{contact.value}</span>
+                            <span className="contact-arrow">↗</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="guild-footer">
+                      <p>READY TO START A NEW ADVENTURE?</p>
+                        <a
+                          href="https://mail.google.com/mail/?view=cm&fs=1&to=gocotanobrigetjohn@gmail.com&su=Let's%20Work%20Together"
+                          className="nes-btn is-success"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          SEND A MESSAGE
+                        </a>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h2>{windowContent[activeWindow].title}</h2>
+                    <p>{windowContent[activeWindow].text}</p>
+                  </>
+                )}
             </div>
           </div>
         )}
