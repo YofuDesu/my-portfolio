@@ -312,6 +312,20 @@ body {
   margin-bottom: 5px;
 }
 
+.menu-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.menu-icon img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 /* -------------------------
    MINI WINDOWS
 -------------------------- */

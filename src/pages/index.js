@@ -1,14 +1,19 @@
 import React, { useState } from "react"
 import profileImage from "../../images/profile.jpg"
+import questIcon from "../../images/quest.png"
+import skillIcon from "../../images/skill.png"
+import inventoryIcon from "../../images/inventory.png"
+import achievementIcon from "../../images/achievement.png"
+import guildIcon from "../../images/guild.png"
 import projects from "../data/projects"
 import skills from "../data/skills";
 
 const menuItems = [
-  { id: "quests", label: "QUEST LOG", icon: " " },
-  { id: "skills", label: "SKILL TREE", icon: " " },
-  { id: "inventory", label: "INVENTORY", icon: " " },
-  { id: "achievements", label: "ACHIEVEMENTS", icon: " " },
-  { id: "guild", label: "GUILD HALL", icon: " " },
+  { id: "quests", label: "QUEST LOG", icon: questIcon },
+  { id: "skills", label: "SKILL TREE", icon: skillIcon },
+  { id: "inventory", label: "INVENTORY", icon: inventoryIcon },
+  { id: "achievements", label: "ACHIEVEMENTS", icon: achievementIcon },
+  { id: "guild", label: "GUILD HALL", icon: guildIcon },
 ]
 
 const windowContent = {
@@ -139,8 +144,10 @@ export default function Home() {
               className="nes-btn menu-button"
               onClick={() => setActiveWindow(item.id)}
             >
-              <span>{item.icon}</span>
-              {item.label}
+<span className="menu-icon">
+  <img src={item.icon} alt="" />
+</span>
+{item.label}
             </button>
           ))}
         </nav>
@@ -150,23 +157,32 @@ export default function Home() {
           <div
             className="modal-backdrop"
             onClick={() => setActiveWindow(null)}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") setActiveWindow(null)
+            }}
+            role="presentation"
           >
-            <section
-              className="game-modal quest-modal"
-              onClick={(event) => event.stopPropagation()}
+          <div
+            className="game-modal quest-modal"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+          >
+            <button
+              type="button"
+              className="close-button"
+              onClick={() => setActiveWindow(null)}
+              aria-label="Close menu"
             >
-              <button
-                className="close-button"
-                onClick={() => setActiveWindow(null)}
-              >
-                X
-              </button>
+              X
+            </button>
 
               <p className="eyebrow">ADVENTURER MENU</p>
 
               {activeWindow === "quests" ? (
                 <>
-                  <h2>QUEST LOG</h2>
+                  <h2 id="modal-title">QUEST LOG</h2>
                   <p className="quest-intro">
                     These are my completed and ongoing adventures!
                   </p>
@@ -229,7 +245,7 @@ export default function Home() {
                 </>
               ) : activeWindow === "skills" ? (
                 <>
-                  <h2>SKILL TREE</h2>
+                  <h2 id="modal-title">SKILL TREE</h2>
                   <p className="quest-intro">
                     My abilities, knowledge, and learned skills!
                   </p>
@@ -272,7 +288,7 @@ export default function Home() {
                   <p>{windowContent[activeWindow].text}</p>
                 </>
               )}
-            </section>
+            </div>
           </div>
         )}
 
