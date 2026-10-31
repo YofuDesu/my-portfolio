@@ -2,9 +2,11 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
+  pathPrefix: "/my-portfolio",
+
   siteMetadata: {
     title: `My Portfolio`,
-    siteUrl: `https://www.yourdomain.tld`
+    siteUrl: `https://yofudesu.github.io/my-portfolio`
   },
   plugins: ["gatsby-plugin-image", "gatsby-plugin-sitemap", {
     resolve: 'gatsby-plugin-manifest',
